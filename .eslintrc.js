@@ -40,7 +40,13 @@ module.exports = {
             'always'
         ],
         'prefer-promise-reject-errors': 0,
-        'no-unused-expressions': 0
+        'no-unused-expressions': 0,
+        'vue/html-indent':  ['error', 4, {
+          'attribute': 1,
+          'closeBracket': 0,
+          'alignAttributesVertically': true,
+          'ignores': []
+        }]
     },
 
     parserOptions: {
