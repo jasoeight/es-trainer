@@ -1,35 +1,55 @@
 <template>
-    <v-container fluid>
-        <v-slide-y-transition mode="out-in">
-            <v-layout column align-center>
-                <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
-                <blockquote>
-                    &#8220;First, solve the problem. Then, write the code.&#8221;
-                    <footer>
-                        <small>
-                            <em>&mdash;John Johnson</em>
-                        </small>
-                    </footer>
-                </blockquote>
-            </v-layout>
-        </v-slide-y-transition>
-    </v-container>
+    <layout-main alignCenter justify-center>
+        <v-btn 
+            v-for="route in routes"
+            v-if="!route.secure || (route.secure && loggedIn) "
+            class="my-5"
+            :key="route.name"
+            :to="{name: route.name}"
+            :color="route.color"
+            large
+            block
+            dark
+        >
+            <v-icon class="mr-3">{{ route.icon }}</v-icon>
+            {{ route.label }}
+        </v-btn>
+    </layout-main>
 </template>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
-    font-weight: normal;
-}
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-li {
-    display: inline-block;
-    margin: 0 10px;
-}
-a {
-    color: #42b983;
-}
-</style>
+<script>
+export default {
+    data() {
+        return {
+            routes: [
+                {
+                    name: 'list',
+                    label: 'Verwaltung',
+                    icon: 'list',
+                    color: 'primary',
+                    secure: true
+                },
+                {
+                    name: 'translate',
+                    label: 'Übersetzen',
+                    icon: 'translate',
+                    color: 'pink',
+                    secure: false
+                },
+                {
+                    name: 'practice',
+                    label: 'Üben',
+                    icon: 'school',
+                    color: 'purple',
+                    secure: false
+                }
+            ]
+        };
+    },
+    computed: {
+        loggedIn() {
+            return this.$store.getters['user/isLoggedIn'];
+        }
+    }
+};
+</script>

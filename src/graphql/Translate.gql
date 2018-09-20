@@ -1,0 +1,7 @@
+query Translate ($search: String!, $language: String = "de") {
+    translations: translate(search: $search, language: $language) {
+      id
+      searchText
+      matchedText
+  }
+}

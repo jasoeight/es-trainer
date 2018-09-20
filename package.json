@@ -6,20 +6,32 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint src/ test/ apollo-server/",
-    "apollo": "vue-cli-service apollo:watch",
-    "apollo:run": "vue-cli-service apollo:run"
+    "apollo:run": "vue-cli-service apollo:run",
+    "apollo:watch": "vue-cli-service apollo:watch",
+    "apollo:watch:dev": "vue-cli-service apollo:watch --mode development",
+    "apollo:watch:prod": "vue-cli-service apollo:watch --mode production",
+    "apollo:run:dev": "vue-cli-service apollo:run --mode development",
+    "apollo:run:prod": "vue-cli-service apollo:run --mode production"
   },
   "dependencies": {
+    "bcrypt": "^3.0.0",
     "graphql-type-json": "^0.2.1",
+    "joi": "^13.6.0",
+    "jsonwebtoken": "8.3.0",
+    "lodash": "4.17.11",
     "lowdb": "^1.0.0",
     "mkdirp": "^0.5.1",
+    "mysql2": "^1.6.1",
     "register-service-worker": "^1.0.0",
+    "sequelize": "^4.38.1",
     "shortid": "^2.2.8",
     "vue": "^2.5.17",
     "vue-apollo": "^3.0.0-beta.11",
     "vue-router": "^3.0.1",
     "vuetify": "^1.0.19",
-    "vuex": "^3.0.1"
+    "vuetify-vuejs-confirmdialog": "0.0.15",
+    "vuex": "^3.0.1",
+    "vuex-persistedstate": "^2.5.4"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.0.0-beta.49",

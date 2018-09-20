@@ -1,70 +1,143 @@
 import GraphQLJSON from 'graphql-type-json';
-import shortid from 'shortid';
+import Sequelize from 'sequelize';
+import ItemModel from './model/item';
+import UserModel from './model/user';
+import bcrypt from 'bcrypt';
+
+const Op = Sequelize.Op;
+const tokenList = {};
 
 export default {
     JSON: GraphQLJSON,
 
-    Counter: {
-        countStr: counter => `Current count: ${counter.count}`,
-    },
-
     Query: {
-        hello: (root, { name }) => `Hello ${name || 'World'}!`,
-        messages: (root, args, { db }) => db.get('messages').value(),
-        uploads: (root, args, { db }) => db.get('uploads').value(),
+        list: (_, { filter: { pagination, search } }) => {
+            console.log('PaGING', pagination);
+            let offset = 0;
+            const limit = pagination.rowsPerPage || 25;
+            if (pagination.page) {
+                offset = (pagination.page - 1) * limit;
+            }
 
+            let options = {
+                limit,
+                offset,
+                order: [[pagination.sortBy || 'id', pagination.descending ? 'DESC' : 'ASC']],
+                raw: true,
+                where: {}
+            };
+
+            if (search) {
+                if (search.id) {
+                    options.where['id'] = search.id;
+                }
+
+                if (search.lesson) {
+                    options.where['lesson'] = search.lesson;
+                }
+
+                if (search.type) {
+                    options.where['type'] = search.type;
+                }
+
+                if (search.de) {
+                    options.where['de'] = { [Op.like]: `%${search.de}%` };
+                }
+
+                if (search.es) {
+                    options.where['es'] = { [Op.like]: `%${search.es}%` };
+                }
+            }
+
+            return ItemModel.findAndCountAll(options);
+        },
+        randomItems: (_, { filter }) => {
+            let options = {
+                order: [ Sequelize.fn('RAND') ],
+                raw: true,
+                where: {}
+            };
+
+            if (filter.limit > 0) {
+                options.limit = filter.limit;
+            }
+
+            if (filter.lesson && filter.lesson !== 'Alle') {
+                options.where['lesson'] = filter.lesson;
+            }
+
+            if (filter.type && filter.type !== 'all') {
+                options.where['type'] = filter.type;
+            }
+
+            return ItemModel.findAll(options);
+        },
+        translate: (_, { search, language }) => {
+            const searchLanguage = language === 'de' ? 'es' : 'de';
+            const options = {
+                attributes: [
+                    'id',
+                    [language, 'searchText'],
+                    [searchLanguage, 'matchedText']
+                ],
+                where: {
+                    [language]: {
+                        [Op.like]: `%${search}%`
+                    }
+                },
+                raw: true
+            };
+            return ItemModel.findAll(options);
+        },
+        getLessons: () => {
+            return ItemModel.findAll({
+                attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('lesson')), 'name']],
+                order: Sequelize.col('lesson'),
+                raw: true
+            });
+        }
     },
 
     Mutation: {
-        myMutation: (root, args, context) => {
-            const message = 'My mutation completed!';
-            context.pubsub.publish('hey', { mySub: message });
-            return message;
+        saveItem: (_, { item }) => {
+            if (item.id !== null) {
+                return ItemModel.update(item, {
+                    where: { id: item.id }
+                });
+            }
+            return ItemModel.create(item);
         },
-        addMessage: (root, { input }, { pubsub, db }) => {
-            const message = {
-                id: shortid.generate(),
-                text: input.text,
+        deleteItem: async (_, { id }) => {
+            await ItemModel.destroy({
+                force: true,
+                where: { id }
+            });
+            return { id };
+        },
+        login: async (_, { username, password }) => {
+            let user = await UserModel.find({
+                where: { username: 'admin' }
+            });
+
+            if (!user) {
+                throw new Error('Invalider Benutzer oder invalides Passwort.');
+            }
+
+            const validPassword = await bcrypt.compare(password, user.password);
+            if (!validPassword) {
+                throw new Error('Invalider Benutzer oder invalides Passwort. 2');
+            }
+
+            user.token = user.generateAuthToken();
+            user.refreshToken = user.generateRefreshToken();
+            tokenList[user.refreshToken] = user;
+
+            return {
+                id: user.id,
+                username: user.username,
+                token: user.token,
+                refreshToken: user.refreshToken
             };
-
-            db
-                .get('messages')
-                .push(message)
-                .last()
-                .write();
-
-            pubsub.publish('messages', { messageAdded: message });
-
-            return message;
-        },
-
-        singleUpload: (root, { file }, { processUpload }) => processUpload(file),
-        multipleUpload: (root, { files }, { processUpload }) => Promise.all(files.map(processUpload)),
-
-    },
-
-    Subscription: {
-        mySub: {
-            subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('hey'),
-        },
-        counter: {
-            subscribe: (parent, args, { pubsub }) => {
-                const channel = Math.random().toString(36).substring(2, 15); // random channel name
-                let count = 0;
-                setInterval(() => pubsub.publish(
-                    channel,
-                    {
-                        // eslint-disable-next-line no-plusplus
-                        counter: { count: count++ },
-                    }
-                ), 2000);
-                return pubsub.asyncIterator(channel);
-            },
-        },
-
-        messageAdded: {
-            subscribe: (parent, args, { pubsub }) => pubsub.asyncIterator('messages'),
-        },
-
-    },
+        }
+    }
 };

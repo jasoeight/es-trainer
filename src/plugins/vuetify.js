@@ -1,28 +1,49 @@
 import Vue from 'vue';
 import {
     Vuetify,
+    VAlert,
     VApp,
-    VNavigationDrawer,
-    VFooter,
-    VList,
     VBtn,
-    VIcon,
+    VCard,
+    VCombobox,
+    VDataTable,
+    VDialog,
+    VFooter,
+    VForm,
     VGrid,
+    VIcon,
+    VProgressCircular,
+    VProgressLinear,
+    VSelect,
+    VTextarea,
+    VTextField,
     VToolbar,
     transitions
 } from 'vuetify';
 import 'vuetify/src/stylus/app.styl';
+import confirmDialog from 'vuetify-vuejs-confirmdialog';
 
 Vue.use(Vuetify, {
     components: {
         VApp,
-        VNavigationDrawer,
-        VFooter,
-        VList,
+        VAlert,
         VBtn,
-        VIcon,
+        VCard,
+        VCombobox,
+        VDataTable,
+        VDialog,
+        VFooter,
+        VForm,
         VGrid,
+        VIcon,
+        VProgressCircular,
+        VProgressLinear,
+        VSelect,
+        VTextarea,
+        VTextField,
         VToolbar,
         transitions
     }
 });
+
+Vue.use(confirmDialog);

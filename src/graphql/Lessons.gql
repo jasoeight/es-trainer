@@ -1,0 +1,5 @@
+query Lessons {
+    lessons: getLessons {
+        name
+    }
+}

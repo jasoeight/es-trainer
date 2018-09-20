@@ -1,0 +1,12 @@
+query Items ($filter: ListInput!) {
+    list: list(filter: $filter) {
+      rows {
+        id
+        lesson
+        type
+        de
+        es
+      }
+      count
+  }
+}
