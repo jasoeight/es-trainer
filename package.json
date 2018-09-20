@@ -14,7 +14,7 @@
     "apollo:run:prod": "vue-cli-service apollo:run --mode production"
   },
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "2.0.1",
     "graphql-type-json": "^0.2.1",
     "joi": "^13.6.0",
     "jsonwebtoken": "8.3.0",
