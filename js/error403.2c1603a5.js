@@ -1,0 +1,2 @@
+(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["error403"],{e15b:function(e,r,t){"use strict";t.r(r);var n=function(){var e=this,r=e.$createElement,t=e._self._c||r;return t("layout-main",{attrs:{alignCenter:"","justify-center":""}},[t("v-card",[t("v-card-text",[t("h2",[e._v("Zugriff verboten")])])],1)],1)},a=[],o={},u=o,i=t("2877"),l=Object(i["a"])(u,n,a,!1,null,null,null);l.options.__file="Error403.vue";r["default"]=l.exports}}]);
+//# sourceMappingURL=error403.2c1603a5.js.map
