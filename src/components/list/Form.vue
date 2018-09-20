@@ -71,12 +71,12 @@
                         large
                         @click="close"
                     >Schließen</v-btn>
-                    <v-btn 
+                    <v-btn
                         color="primary"
                         large
                         @click="save(mutate, true)"
                     >Speichern</v-btn>
-                    <v-btn 
+                    <v-btn
                         color="info"
                         large
                         @click="save(mutate, false)"
@@ -100,7 +100,7 @@ export default {
     },
     data() {
         return {
-            closeOnDone:true,
+            closeOnDone: true,
             valid: true,
             model: {
                 id: null,

@@ -72,7 +72,7 @@ export default {
             language: 'de',
             text: '',
             search: ''
-        }
+        };
     },
     computed: {
         languageDirectionText() {

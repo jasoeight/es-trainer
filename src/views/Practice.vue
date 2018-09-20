@@ -41,7 +41,7 @@ export default {
             showForm: true,
             practiceFilter: {},
             language: ''
-        }
+        };
     },
     methods: {
         startPractice(data) {

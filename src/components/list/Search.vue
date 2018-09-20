@@ -38,7 +38,7 @@
                         flat
                         @click="reset"
                     >Reset</v-btn>
-                    <v-btn 
+                    <v-btn
                         color="blue darken-1"
                         flat
                         @click="search"

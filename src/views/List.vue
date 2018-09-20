@@ -2,19 +2,19 @@
     <layout-main alignCenter justify-center>
         <apollo-query
             :query="require('@/graphql/Items.gql')"
-            :variables="{ 
+            :variables="{
                 filter: {
                     pagination,
                     search
-                } 
+                }
             }"
         >
             <template slot-scope="{ query, result: { loading, error, data } }">
                 <list-search @search="onSearch" />
                 <v-toolbar flat color="white">
                     <v-spacer />
-                    <v-btn 
-                        color="primary" 
+                    <v-btn
+                        color="primary"
                         dark
                         class="mb-2"
                         @click="newItem"
@@ -33,10 +33,10 @@
                     :pagination.sync="pagination"
                     :total-items="data ? data.list.count : 0"
                 >
-                    <v-progress-linear 
+                    <v-progress-linear
                         slot="progress"
                         color="blue"
-                        indeterminate 
+                        indeterminate
                     />
                     <template slot="items" slot-scope="props">
                         <td>{{ props.item.id }}</td>
@@ -97,7 +97,7 @@ export default {
             ],
             showDialog: false,
             editedItem: null
-        }
+        };
     },
     methods: {
         newItem() {
@@ -118,7 +118,7 @@ export default {
         },
         doDelete(mutate) {
             this.$vuetifyConfirmDialog.open(
-                'Eintrag löschen', 
+                'Eintrag löschen',
                 'Wollen Sie den Eintrag wirklich löschen?',
                 'Abbrechen',
                 'Löschen'
@@ -127,7 +127,7 @@ export default {
                     mutate();
                 }
             })
-            .catch(() => {});
+                .catch(() => {});
         },
         reloadTable(query) {
             query.refetch();

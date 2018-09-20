@@ -1,6 +1,6 @@
 <template>
     <layout-main alignCenter justify-center>
-        <v-btn 
+        <v-btn
             v-for="route in routes"
             v-if="!route.secure || (route.secure && loggedIn) "
             class="my-5"

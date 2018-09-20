@@ -17,13 +17,13 @@
                         color="error"
                     >{{ error.message }}</v-alert>
                     <v-form ref="form" :valid="valid">
-                        <v-text-field 
+                        <v-text-field
                             prepend-icon="person"
                             v-model="username"
                             label="Benutzer"
                             :rules="[requiredRules]"
                         />
-                        <v-text-field 
+                        <v-text-field
                             prepend-icon="lock"
                             v-model="password"
                             label="Password"
@@ -40,7 +40,7 @@
                         large
                         @click="close"
                     >Schließen</v-btn>
-                    <v-btn 
+                    <v-btn
                         color="primary"
                         large
                         @click="login(mutate)"

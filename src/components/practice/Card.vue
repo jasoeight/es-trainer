@@ -1,5 +1,5 @@
 <template>
-    <v-card 
+    <v-card
         :color="color"
         class="white--text"
     >
