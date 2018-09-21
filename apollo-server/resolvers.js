@@ -1,7 +1,7 @@
 import GraphQLJSON from 'graphql-type-json';
 import Sequelize from 'sequelize';
 import ItemModel from './model/item';
-import UserModel from './model/user';
+import UserModel, { validateToken } from './model/user';
 import bcrypt from 'bcrypt';
 
 const Op = Sequelize.Op;
@@ -99,7 +99,8 @@ export default {
     },
 
     Mutation: {
-        saveItem: (_, { item }) => {
+        saveItem: (_, { item }, { token }) => {
+            validateToken(token);
             if (item.id !== null) {
                 return ItemModel.update(item, {
                     where: { id: item.id }
@@ -107,7 +108,8 @@ export default {
             }
             return ItemModel.create(item);
         },
-        deleteItem: async (_, { id }) => {
+        deleteItem: async (_, { id }, { token }) => {
+            validateToken(token);
             await ItemModel.destroy({
                 force: true,
                 where: { id }
@@ -116,7 +118,7 @@ export default {
         },
         login: async (_, { username, password }) => {
             let user = await UserModel.find({
-                where: { username: 'admin' }
+                where: { username: username }
             });
 
             if (!user) {

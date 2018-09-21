@@ -1,4 +1,5 @@
+import PrivateDirective from './directives/private';
+
 export default {
-    // Schema directives
-    // https://www.apollographql.com/docs/graphql-tools/schema-directives.html
+    private: PrivateDirective
 };

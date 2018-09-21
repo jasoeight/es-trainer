@@ -46,3 +46,13 @@ User.prototype.generateRefreshToken = function() {
 };
 
 export default User;
+export function validateToken(token) {
+    try {
+        jwt.verify(token, config.jwtTokenSecret);
+    } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+            throw new Error('Token expired.');
+        }
+        throw new Error('Invalid token.');
+    }
+};

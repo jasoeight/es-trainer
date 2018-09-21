@@ -2,6 +2,9 @@
 scalar JSON
 scalar Upload
 
+# Included directives
+directive @private on FIELD_DEFINITION
+
 enum Types {
   text
   word
@@ -80,7 +83,7 @@ type Query {
 }
 
 type Mutation {
-  saveItem(item: ItemInput!): Item!,
-  deleteItem(id: Int!): Id,
+  saveItem(item: ItemInput!): Item! @private,
+  deleteItem(id: Int!): Id @private,
   login(username: String!, password: String!): LoggedInUser
 }

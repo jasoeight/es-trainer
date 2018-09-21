@@ -1,3 +1,8 @@
-export default ({ req, connection }) => {
-    return {};
+export default ({ req }) => {
+    let token;
+    if (req) {
+        token = req.get('Authorization');
+    }
+
+    return { token };
 };
