@@ -1,4 +1,26 @@
+const winston = require('winston');
+const path = require('path');
 const server = require('vue-cli-plugin-apollo/graphql-server');
+
+let logger;
+
+const format = winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+);
+
+let logPath = path.join(__dirname, 'application.log');
+logger = new winston.transports.File({
+    filename: logPath,
+    handleExceptions: true,
+    level: 'debug',
+    format
+});
+
+winston.add(logger);
+
+process.on('uncaughtException', ex => { throw ex; });
+process.on('unhandledRejection', ex => { throw ex; });
 
 const opts = {
     host: process.env.VUE_APP_GRAPHQL_HOST || 'localhost',
@@ -20,5 +42,6 @@ const opts = {
 };
 
 server(opts, () => {
-    console.log('Server is running!');
+    logger.info('Server running on port with the following options');
+    logger.info(opts);
 });
