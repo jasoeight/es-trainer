@@ -32,11 +32,11 @@ self.__precacheManifest = [
     "url": "/js/chunk-2d2160d1.0888b599.js"
   },
   {
-    "revision": "6ea5be1e4a7fe9474d00",
-    "url": "/js/app.7fa6dc6d.js"
+    "revision": "0e8367cb60750c591b8b",
+    "url": "/js/app.49a3c535.js"
   },
   {
-    "revision": "a3b566570f278e7a77d2632d5ed192d1",
+    "revision": "0662e977284f4312a74d0f71bed8ccf9",
     "url": "/index.html"
   },
   {
