@@ -36,12 +36,11 @@ const opts = {
         typeDefs: require.resolve('./apollo-server/type-defs.js'),
         resolvers: require.resolve('./apollo-server/resolvers.js'),
         context: require.resolve('./apollo-server/context.js'),
-        server: require.resolve('./apollo-server/server.js'),
         directives: require.resolve('./apollo-server/directives.js')
     }
 };
 
 server(opts, () => {
-    logger.info('Server running on port with the following options');
-    logger.info(opts);
+    winston.info('Server running on port with the following options');
+    winston.info(opts);
 });
