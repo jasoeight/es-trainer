@@ -1,15 +1,15 @@
 const server = require('vue-cli-plugin-apollo/graphql-server');
 
 const opts = {
-    host: process.env.VUE_APP_GRAPHQL_HOST,
-    port: process.env.VUE_APP_GRAPHQL_PORT,
-    graphqlPath: process.env.VUE_APP_GRAPHQL_PATH,
-    subscriptionsPath: process.env.VUE_APP_GRAPHQL_PATH,
+    host: process.env.VUE_APP_GRAPHQL_HOST || 'localhost',
+    port: process.env.VUE_APP_GRAPHQL_PORT || 4000,
+    graphqlPath: process.env.VUE_APP_GRAPHQL_PATH || '/graphql',
+    subscriptionsPath: process.env.VUE_APP_GRAPHQL_PATH || '/graphql',
     enableMocks: false,
     enableEngine: false,
-    cors: process.env.VUE_APP_GRAPHQL_CORS,
-    timeout: process.env.VUE_APP_GRAPHQL_TIMEOUT,
-    quiet: process.env.VUE_APP_GRAPHQL_QUIET === 'true',
+    cors: process.env.VUE_APP_GRAPHQL_CORS || '*',
+    timeout: process.env.VUE_APP_GRAPHQL_TIMEOUT || 1000000,
+    quiet: true,
     paths: {
         typeDefs: require.resolve('./apollo-server/type-defs.js'),
         resolvers: require.resolve('./apollo-server/resolvers.js'),
