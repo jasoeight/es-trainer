@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.5bdc65127deb46e7fbd9005dac95c161.js"
+  "/precache-manifest.8fa78b9891ccdb4c1f0abc7678d31bc6.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "es-trainer"});
