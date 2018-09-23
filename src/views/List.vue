@@ -27,11 +27,11 @@
                 </v-toolbar>
                 <v-data-table
                     :headers="headers"
-                    :items="data ? data.list.rows : []"
+                    :items="data && data.list ? data.list.rows : []"
                     :loading="loading"
                     class="elevation-1"
                     :pagination.sync="pagination"
-                    :total-items="data ? data.list.count : 0"
+                    :total-items="data && data.list ? data.list.count : 0"
                 >
                     <v-progress-linear
                         slot="progress"
@@ -42,8 +42,9 @@
                         <td>{{ props.item.id }}</td>
                         <td>{{ props.item.lesson }}</td>
                         <td>{{ props.item.type }}</td>
-                        <td>{{ props.item.de }}</td>
-                        <td>{{ props.item.es }}</td>
+                        <td v-html="transformText(props.item.de)" />
+                        <td v-html="transformText(props.item.es)" />
+                        <td v-html="transformText(props.item.info)" />
                         <td>
                             <v-icon
                                 small
@@ -93,6 +94,7 @@ export default {
                 { text: 'Typ', value: 'type' },
                 { text: 'Deutsch', value: 'de' },
                 { text: 'Spanisch', value: 'es' },
+                { text: 'Info', value: 'info' },
                 { text: 'Aktionen', value: 'id', sortable: false }
             ],
             showDialog: false,
@@ -100,6 +102,12 @@ export default {
         };
     },
     methods: {
+        transformText(text) {
+            if (text === null) {
+                return '';
+            }
+            return text.replace(/\n/g, '<br>');
+        },
         newItem() {
             this.editedItem = null;
             this.showDialog = true;

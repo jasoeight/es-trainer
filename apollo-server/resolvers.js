@@ -5,14 +5,12 @@ import UserModel, { validateToken } from './model/user';
 import bcrypt from 'bcrypt';
 
 const Op = Sequelize.Op;
-const tokenList = {};
 
 export default {
     JSON: GraphQLJSON,
 
     Query: {
         list: (_, { filter: { pagination, search } }) => {
-            console.log('PaGING', pagination);
             let offset = 0;
             const limit = pagination.rowsPerPage || 25;
             if (pagination.page) {
@@ -62,11 +60,11 @@ export default {
                 options.limit = filter.limit;
             }
 
-            if (filter.lesson && filter.lesson !== 'Alle') {
-                options.where['lesson'] = filter.lesson;
+            if (filter.lessons && filter.lessons.length > 0) {
+                options.where['lesson'] = { [Op.or]: filter.lessons };
             }
 
-            if (filter.type && filter.type !== 'all') {
+            if (filter.type) {
                 options.where['type'] = filter.type;
             }
 
@@ -117,7 +115,7 @@ export default {
             return { id };
         },
         login: async (_, { username, password }) => {
-            let user = await UserModel.find({
+            let user = await UserModel.findOne({
                 where: { username: username }
             });
 
@@ -131,8 +129,6 @@ export default {
             }
 
             user.token = user.generateAuthToken();
-            user.refreshToken = user.generateRefreshToken();
-            tokenList[user.refreshToken] = user;
 
             return {
                 id: user.id,

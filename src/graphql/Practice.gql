@@ -1,7 +1,9 @@
 query Practice ($filter: ItemsFilter!) {
     practice: randomItems(filter: $filter) {
       id
+      lesson
       de
       es
+      info
   }
 }

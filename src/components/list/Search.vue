@@ -1,51 +1,67 @@
 <template>
     <v-form>
-        <v-container>
-            <v-layout row no-wrap>
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                        label="Id"
-                        v-model="model.id"
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                        label="Lektion"
-                        v-model="model.lesson"
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                        label="Typ"
-                        v-model="model.type"
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                        label="Deutsch"
-                        v-model="model.de"
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-text-field
-                        label="Spanisch"
-                        v-model="model.es"
-                    />
-                </v-flex>
-                <v-flex xs12 sm6 md3>
-                    <v-btn
-                        color="blue darken-1"
-                        flat
-                        @click="reset"
-                    >Reset</v-btn>
-                    <v-btn
-                        color="blue darken-1"
-                        flat
-                        @click="search"
-                    >Suchen</v-btn>
-                </v-flex>
-            </v-layout>
-        </v-container>
+        <v-layout align-start row fill-height>
+            <v-flex>
+                <v-container
+                    grid-list-md
+                    class="pa-0 ma-0"
+                >
+                    <v-layout align-center wrap fill-height>
+                        <v-flex>
+                            <v-text-field
+                                label="Id"
+                                v-model.number="model.id"
+                                @keyup.enter="search"
+                            />
+                        </v-flex>
+                        <v-flex>
+                            <v-text-field
+                                label="Lektion"
+                                v-model="model.lesson"
+                                @keyup.enter="search"
+                            />
+                        </v-flex>
+                        <v-flex>
+                            <v-text-field
+                                label="Typ"
+                                v-model="model.type"
+                                @keyup.enter="search"
+                            />
+                        </v-flex>
+                        <v-flex>
+                            <v-text-field
+                                label="Deutsch"
+                                v-model="model.de"
+                                @keyup.enter="search"
+                            />
+                        </v-flex>
+                        <v-flex>
+                            <v-text-field
+                                label="Spanisch"
+                                v-model="model.es"
+                                @keyup.enter="search"
+                            />
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-flex>
+            <div class="text-xs-center pl-4">
+                <v-btn
+                    color="secondary"
+                    large
+                    @click="reset"
+                >
+                    <v-icon>cancel</v-icon>
+                </v-btn>
+                <v-btn
+                    color="primary"
+                    large
+                    @click="search"
+                >
+                    <v-icon>search</v-icon>
+                </v-btn>
+            </div>
+        </v-layout>
     </v-form>
 </template>
 

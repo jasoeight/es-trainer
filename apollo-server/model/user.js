@@ -45,8 +45,7 @@ User.prototype.generateRefreshToken = function() {
     );
 };
 
-export default User;
-export function validateToken(token) {
+function checkToken(token) {
     try {
         jwt.verify(token, config.jwtTokenSecret);
     } catch (error) {
@@ -55,4 +54,30 @@ export function validateToken(token) {
         }
         throw new Error('Invalid token.');
     }
+}
+
+export default User;
+export async function validateToken(token) {
+    try {
+        checkToken(token);
+        return token;
+    } catch (error) {
+        if (error.name !== 'Token expired') {
+            throw error;
+        }
+    }
+
+    const decoded = jwt.decode(token, { complete: true });
+    if (!decoded.payload || !decoded.payload.id) {
+        throw new Error('Invalid token');
+    }
+
+    const user = await User.findOne({
+        where: { id: decoded.payload.id }
+    });
+    if (!user) {
+        throw new Error('Invalid token');
+    }
+
+    return user.generateAuthToken();
 };

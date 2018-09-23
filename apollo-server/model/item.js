@@ -22,6 +22,9 @@ const Item = db.define('items', {
     es: {
         type: Sequelize.TEXT(),
         allowNull: false
+    },
+    info: {
+        type: Sequelize.TEXT()
     }
 }, {
     timestamps: false

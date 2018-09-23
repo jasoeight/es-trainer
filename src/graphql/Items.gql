@@ -6,6 +6,7 @@ query Items ($filter: ListInput!) {
         type
         de
         es
+        info
       }
       count
   }

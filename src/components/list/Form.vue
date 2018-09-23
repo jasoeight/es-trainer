@@ -1,16 +1,8 @@
 <template>
-    <v-dialog :value="show" max-width="600px">
+    <v-dialog :value="show" @input="close" max-width="600px">
         <apollo-mutation
             :mutation="require('@/graphql/saveItem.gql')"
-            :variables="{
-                item: {
-                    id: model.id,
-                    lesson: model.lesson,
-                    type: model.type,
-                    de: model.de,
-                    es: model.es
-                }
-            }"
+            :variables="{ item: model }"
             @done="onDone"
         >
             <v-card slot-scope="{ mutate, loading, error }">
@@ -61,6 +53,10 @@
                             :rules="[requiredRules]"
                             required
                         />
+                        <v-textarea
+                            v-model="model.info"
+                            label="Info"
+                        />
                     </v-form>
                 </v-card-text>
 
@@ -107,10 +103,12 @@ export default {
                 lesson: '',
                 type: 'word',
                 de: '',
-                es: ''
+                es: '',
+                info: ''
             },
             types: [
                 { text: 'Vokabel', value: 'word' },
+                { text: 'Zahl', value: 'number' },
                 { text: 'Text', value: 'text' }
             ],
             created: false,
@@ -128,16 +126,23 @@ export default {
     },
     methods: {
         close () {
+            this.closeOnDone = true;
             this.reset();
             this.$emit('update:show', false);
         },
         reset() {
-            this.model.id = null;
-            this.model.lesson = '';
-            this.model.type = 'word';
-            this.model.de = '';
-            this.model.es = '';
+            const lesson = this.model.lesson;
+            const type = this.model.type;
             this.$refs.form.reset();
+            this.model.id = null;
+            this.$nextTick(() => {
+                if (!this.closeOnDone) {
+                    this.model.lesson = lesson;
+                    this.model.type = type;
+                } else {
+                    this.model.type = 'word';
+                }
+            });
         },
         save(mutate, closeOnDone = true) {
             this.closeOnDone = closeOnDone;
@@ -162,6 +167,7 @@ export default {
                 this.model.type = newValue.type;
                 this.model.de = newValue.de;
                 this.model.es = newValue.es;
+                this.model.info = newValue.info;
             }
         }
     }

@@ -8,13 +8,14 @@ directive @private on FIELD_DEFINITION
 enum Types {
   text
   word
+  number
 }
 
 input ItemsFilter {
   limit: Int
   offset: Int
   id: Int
-  lesson: String
+  lessons: [String]
   type: String
   de: String
   es: String
@@ -26,6 +27,7 @@ input ItemInput {
   type: Types!
   de: String!
   es: String!
+  info: String
 }
 
 input Pagination {
@@ -47,6 +49,7 @@ type Item {
   type: Types!
   de: String!
   es: String!
+  info: String
 }
 
 type Lesson {
