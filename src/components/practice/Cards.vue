@@ -29,20 +29,17 @@
                         v-if="currentIndex !== 0"
                         large
                         @click="previous"
-                    >Zurück</v-btn>
+                    >
+                        <v-icon>keyboard_arrow_left</v-icon>
+                    </v-btn>
                     <v-spacer />
                     <v-btn
-                        v-if="currentLanguage !== language"
+                        v-if="currentLanguage !== language && !checked"
                         large
                         @click="showCheckForm = true"
                         class="mr-3"
                     >
-                        <v-icon
-                            v-if="checked"
-                            color="success"
-                            class="mr-2"
-                        >done_outline</v-icon>
-                        Prüfen
+                        <v-icon>spellcheck</v-icon>
                     </v-btn>
                     <check-form
                         :id="item.id"
@@ -53,13 +50,17 @@
                         v-if="!isLast"
                         large
                         @click="next"
-                    >{{ currentLanguage === language ? 'Übersetzen' : 'Weiter' }}</v-btn>
+                    >
+                        <v-icon>{{ currentLanguage === language ? 'translate' : 'keyboard_arrow_right' }}</v-icon>
+                    </v-btn>
                     <v-btn
                         v-if="isLast"
                         large
                         color="success"
                         :to="{name: 'home'}"
-                    >Zur Startseite</v-btn>
+                    >
+                        <v-icon>home</v-icon>
+                    </v-btn>
                 </v-card-actions>
             </v-card>
         </template>
