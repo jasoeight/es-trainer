@@ -42,6 +42,13 @@
                                 @keyup.enter="search"
                             />
                         </v-flex>
+                        <v-flex>
+                            <v-checkbox
+                                label="Zu prüfen?"
+                                v-model="model.check"
+                                value="1,2"
+                            />
+                        </v-flex>
                     </v-layout>
                 </v-container>
             </v-flex>
@@ -74,7 +81,8 @@ export default {
                 type: '',
                 lesson: '',
                 de: '',
-                es: ''
+                es: '',
+                check: ''
             }
         };
     },
@@ -85,11 +93,11 @@ export default {
             this.model.lesson = '';
             this.model.de = '';
             this.model.es = '';
+            this.model.check = '';
             this.$emit('search', {});
         },
         search() {
             const search = {};
-
             Object.keys(this.model).forEach(key => {
                 if (this.model[key] === '') {
                     return;

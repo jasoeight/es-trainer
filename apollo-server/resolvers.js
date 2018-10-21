@@ -45,6 +45,10 @@ export default {
                 if (search.es) {
                     options.where['es'] = { [Op.like]: `%${search.es}%` };
                 }
+
+                if (search.check) {
+                    options.where['check'] = { [Op.or]: search.check.split(',') };
+                }
             }
 
             return ItemModel.findAndCountAll(options);
@@ -110,6 +114,14 @@ export default {
             validateToken(token);
             await ItemModel.destroy({
                 force: true,
+                where: { id }
+            });
+            return { id };
+        },
+        checkItem: async (_, { id, check }) => {
+            await ItemModel.update({
+                check
+            }, {
                 where: { id }
             });
             return { id };

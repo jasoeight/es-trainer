@@ -18,7 +18,8 @@ input ItemsFilter {
   lessons: [String]
   type: String
   de: String
-  es: String
+  es: String,
+  check: String
 }
 
 input ItemInput {
@@ -49,7 +50,8 @@ type Item {
   type: Types!
   de: String!
   es: String!
-  info: String
+  info: String,
+  check: Int
 }
 
 type Lesson {
@@ -88,5 +90,6 @@ type Query {
 type Mutation {
   saveItem(item: ItemInput!): Item! @private,
   deleteItem(id: Int!): Id @private,
+  checkItem(id: Int!, check: Int!): Id,
   login(username: String!, password: String!): LoggedInUser
 }

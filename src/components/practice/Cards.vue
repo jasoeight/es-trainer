@@ -32,6 +32,24 @@
                     >Zurück</v-btn>
                     <v-spacer />
                     <v-btn
+                        v-if="currentLanguage !== language"
+                        large
+                        @click="showCheckForm = true"
+                        class="mr-3"
+                    >
+                        <v-icon
+                            v-if="checked"
+                            color="success"
+                            class="mr-2"
+                        >done_outline</v-icon>
+                        Prüfen
+                    </v-btn>
+                    <check-form
+                        :id="item.id"
+                        :show.sync="showCheckForm"
+                        @checked="checked = true"
+                    />
+                    <v-btn
                         v-if="!isLast"
                         large
                         @click="next"
@@ -49,7 +67,11 @@
 </template>
 
 <script>
+import CheckForm from './CheckForm';
 export default {
+    components: {
+        CheckForm
+    },
     props: {
         language: {
             type: String,
@@ -62,6 +84,8 @@ export default {
     },
     data() {
         return {
+            checked: false,
+            showCheckForm: false,
             currentIndex: 0,
             currentLanguage: this.language
         };
@@ -90,6 +114,7 @@ export default {
                 this.currentIndex--;
             }
             this.currentLanguage = this.language;
+            this.checked = false;
         },
         next() {
             if (this.currentLanguage === this.language) {
@@ -97,6 +122,7 @@ export default {
             }
             this.currentIndex++;
             this.currentLanguage = this.language;
+            this.checked = false;
         }
     }
 };

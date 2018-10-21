@@ -25,7 +25,12 @@ const Item = db.define('items', {
     },
     info: {
         type: Sequelize.TEXT()
+    },
+    check: {
+        type: Sequelize.TINYINT(),
+        allowNull: false
     }
+
 }, {
     timestamps: false
 });

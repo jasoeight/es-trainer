@@ -8,8 +8,9 @@
                     search
                 }
             }"
+            fetchPolicy="no-cache"
         >
-            <template slot-scope="{ query, result: { loading, error, data } }">
+            <template slot-scope="{ query, result: { loading, error, data }, refetch }">
                 <list-search @search="onSearch" />
                 <v-toolbar flat color="white">
                     <v-spacer />
@@ -45,25 +46,34 @@
                         <td v-html="transformText(props.item.de)" />
                         <td v-html="transformText(props.item.es)" />
                         <td v-html="transformText(props.item.info)" />
-                        <td>
+                        <td v-html="transformCheck(props.item.check)" />
+                        <td class="text-xs-right">
+                            <apollo-mutation
+                                v-if="props.item.check !== 0"
+                                tag=""
+                                :mutation="require('@/graphql/checkItem.gql')"
+                                :variables="{
+                                    id: props.item.id,
+                                    check: 0
+                                }"
+                                @done="reloadTable(query)"
+                            >
+                                <template slot-scope="{ mutate, loading, error }">
+                                    <v-icon @click="mutate">done_all</v-icon>
+                                </template>
+                            </apollo-mutation>
                             <v-icon
-                                small
                                 class="mr-2"
                                 @click="editItem(props.item)"
                             >edit</v-icon>
                             <apollo-mutation
                                 tag=""
                                 :mutation="require('@/graphql/deleteItem.gql')"
-                                :variables="{
-                                    id: props.item.id
-                                }"
+                                :variables="{ id: props.item.id }"
                                 @done="reloadTable(query)"
                             >
                                 <template slot-scope="{ mutate, loading, error }">
-                                    <v-icon
-                                        small
-                                        @click="doDelete(mutate)"
-                                    >delete</v-icon>
+                                    <v-icon @click="doDelete(mutate)">delete</v-icon>
                                 </template>
                             </apollo-mutation>
                         </td>
@@ -95,6 +105,7 @@ export default {
                 { text: 'Deutsch', value: 'de' },
                 { text: 'Spanisch', value: 'es' },
                 { text: 'Info', value: 'info' },
+                { text: 'Prüfen', value: 'check' },
                 { text: 'Aktionen', value: 'id', sortable: false }
             ],
             showDialog: false,
@@ -107,6 +118,16 @@ export default {
                 return '';
             }
             return text.replace(/\n/g, '<br>');
+        },
+        transformCheck(value) {
+            switch (value) {
+                case 1:
+                    return 'Doppelt?';
+                case 2:
+                    return 'Fehler?';
+                default:
+                    return '';
+            }
         },
         newItem() {
             this.editedItem = null;
