@@ -29,7 +29,7 @@ input ItemInput {
   de: String!
   es: String!
   info: String
-  check: Int = 0
+  check: Int
 }
 
 input Pagination {
