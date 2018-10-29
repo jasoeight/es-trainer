@@ -104,7 +104,8 @@ export default {
                 type: 'word',
                 de: '',
                 es: '',
-                info: ''
+                info: '',
+                check: 0
             },
             types: [
                 { text: 'Vokabel', value: 'word' },
@@ -168,6 +169,7 @@ export default {
                 this.model.de = newValue.de;
                 this.model.es = newValue.es;
                 this.model.info = newValue.info;
+                this.model.check = newValue.check;
             }
         }
     }
