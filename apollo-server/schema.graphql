@@ -29,6 +29,7 @@ input ItemInput {
   de: String!
   es: String!
   info: String
+  check: Int = 0
 }
 
 input Pagination {
@@ -50,7 +51,7 @@ type Item {
   type: Types!
   de: String!
   es: String!
-  info: String,
+  info: String
   check: Int
 }
 
